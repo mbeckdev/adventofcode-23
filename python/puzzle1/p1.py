@@ -9,10 +9,10 @@ realPath = "".join(realPathStringsList)
 # print(realPath)
 
 print('********** start ********** start *******')
-# with open(testPath, "r") as file:
-with open(realPath, "r") as file:
+with open(testPath, "r") as file:
+# with open(realPath, "r") as file:
     lines = file.readlines()
-    # print(lines)
+    print(lines)
     ans = 0
     for line in lines:
         # print(line)   # line is like 1abc2df
