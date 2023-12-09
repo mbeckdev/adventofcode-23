@@ -19,8 +19,8 @@ with open(testPath, "r") as file:
         # print(line.strip())    # the strip gets rid of spaces and crlf 's  line is ilke 3sfd1fj
         first = "empty"
         last = "empty"
-        for char in line:
-            if char.isdigit() and first == "empty":
+        for char in line:                                                                                                                         
+            if char.isdigit() and first == "empty":           #                                                      o                  .  
                 first = char
                 # print(char)
             if char.isdigit():
