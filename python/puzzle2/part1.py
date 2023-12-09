@@ -4,9 +4,9 @@ partNo = "1"
 
 testPathStringsList = ["python\\puzzle", puzzleNo, "\\p", puzzleNo, "test", partNo, ".txt"]
 testPath = "".join(testPathStringsList)
-realPathStringsList = ["python\\puzzle", puzzleNo, "\\p", puzzleNo, "input", partNo, ".txt"]
+realPathStringsList = ["python\\puzzle", puzzleNo, "\\p", puzzleNo, "part", partNo, "input.txt"]
 realPath = "".join(realPathStringsList)
-print(testPath)
+print(realPath)
 
 print('********** start ********** start *******')
 # which games are possible with these:
@@ -88,8 +88,8 @@ checkSet = BlockSet(redblocks=12, greenblocks=13, blueblocks=14)
 # print('checkSet.blueblocks',checkSet.blueblocks)
 
 
-with open(testPath, "r") as file:
-# with open(realPath, "r") as file:
+# with open(testPath, "r") as file:
+with open(realPath, "r") as file:
     lines = file.readlines()
     # print(lines)
 
@@ -145,15 +145,15 @@ with open(testPath, "r") as file:
 
 print('***********end**********end*******')
 # print all games - for checking 
-for index, game in enumerate(allGames):
-   print(f"{game}")
+# for index, game in enumerate(allGames):
+#    print(f"{game}")
 
 # add up the ids of all the possible games
 ans = 0
 for index, game in enumerate(allGames):
     # if (game.gameId): print(game.gameId)
     if (game.passesCheck): 
-        print(f'gameid {game.gameId} passesCheck') 
         ans += game.gameId
+        # print(f'gameid {game.gameId} passesCheck') 
 print(f'ans = {ans}')
 
