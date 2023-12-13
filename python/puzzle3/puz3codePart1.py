@@ -8,153 +8,150 @@ testPath = "".join(testPathStringsList)
 realPathStringsList = ["python\\puzzle", puzzleNo, "\\puz", puzzleNo, "part", partNo, "input.txt"]
 realPath = "".join(realPathStringsList)
 print(realPath)
+print(testPath)
 
 print('********** start ********** start *******')
-# which games are possible with these:
-# only 12 red cubes, 13 green cubes, and 14 blue cubes
-actualRed = 12
-actualGreen = 13                            
-actualBlue = 14
+# hmm, have a x and y,  00 is at top left
+# call this the gameboard.
+# each cell:
+#  checkall around this digit, see a mark, set a realPart = true, 
+#      when finish a set of numbers, 
+#           find the 3 digit or 5 digit or whatever, 
+#           and reset the realPart to = false
+#  capture the full number in an array of goodPartNums array
+#  answer = add up all numbers in goodPartNums
 
-# class MyClass:
-#     def __init__(self, parameter1, parameter2):
-#         # This is the constructor method, called when an object is created
-#         self.parameter1 = parameter1
-#         self.parameter2 = parameter2
+# how does python with strings as arrays? guess I'll find out
 
-#     def my_method(self):
-#         # This is a method of the class
-#         print(f"My method called with parameters: {self.parameter1}, {self.parameter2}")
 
-# # Creating an instance of the class
-# my_instance = MyClass("value1", "value2")
+# functions:
+#   isThereASymbolAroundMe?(myX, myY) = returns true or false
+#   isThereADigitToMyRight(myX, myY)? = returns true, will return false when you get to the end of a 'word' of digits
 
-# # Accessing attributes and calling methods of the instance
-# # print(my_instance.parameter1)
-# # print(my_instance.parameter2)
-# my_instance.my_method()
+#   findWholeWord(myX, myY, wordLength)
+#       I"m at teh end of a digit word, what's the whole digit word
+#   addToGoodPartNums(newWord)    ? might be faster to just add it not in a function
+#   findSumOfArray(myArray) 
+# .....try no classes.... first   
 
-class Game:
-    def __init__(self, gameId, passesCheck, setArray) -> None:
-        self.gameId = gameId
-        self.setArray = setArray
-        self.passesCheck = passesCheck
-    def __str__(self) -> str:
-        return f'game id = {self.gameId}, passesCheck = {self.passesCheck}, setArray = {self.setArray}'
-    # def __init__(self, gameId, setA, setB, setC) -> None:
-    #     self.gameId = gameId
-    #     self.setA = setA
-    #     self.setB = setB
-    #     self.setC = setC
+def findSumOfArray(myArray):
+    sum = 0
+    for item in myArray:
+        sum += item
+    return sum
+# testArray = ['20','3']  #no worky. so make sure things in array are numbers
+testArray = [20,3]
+# isdigit() True if all chas are digits 
+def findWholeWord(myX, myY, gameboard):
+    # we already know this is a digit
+    thisCell = gameboard[myY][myX]
+    wordLength = 1
+
+    # is there one to the left? if so, check that one and increase some var
+    if ((myX-1) >= 0):
+        if (gameboard[myY][myX-1]):
+            print(thisCell)
+
+# class GameBoard:
+#     def __init__(self, length, width) -> None:
+#         self.width = width
+#         self.length = length
+#     # def __str__(self) -> str:
+#         # for y in self.length:
+#             # for x in self.width:
+#                 # print()
+#     def line
+# class cell:
+#     def __init__(self, x, y, digit) -> None:
+#         this.x = x
+#         this.y = y
+#         this.digit = digit
         
-    # def addBlockSet(self, whichset):
-        # self.  maybe game should be an array of block sets so i can append
-class BlockSet:
-    def __init__(self, redblocks=0, greenblocks=0, blueblocks=0):
-        self.redblocks = redblocks
-        self.greenblocks = greenblocks
-        self.blueblocks = blueblocks
-    def __str__(self):
-        return f"BlockSet(red={self.redblocks}, green={self.greenblocks}, blue={self.blueblocks})"
-    def __repr__(self):
-       return f"BlockSet(red={self.redblocks}, green={self.greenblocks}, blue={self.blueblocks})"
-    #    return f"BlockSet(id={self.id}, setArray={self.setArray})"
-    def addblocks(self, red=0, green=0, blue=0):
-        self.redblocks += red
-        self.greenblocks +=green
-        self.blueblocks +=blue
-    def removeblocks(self, red=0, green=0, blue=0):
-        self.redblocks = max(0, self.redblocks - red)
-        self.greenblocks = max(0, self.greenblocks - green)
-        self.blueblocks = max(0, self.blueblocks - blue)
-    def display_blocks(self):
-        print(f"Red Blocks: {self.redblocks}")
-        print(f"Green Blocks: {self.greenblocks}")
-        print(f"Blue Blocks: {self.blueblocks}")
-
-block_setA = BlockSet(redblocks=5, greenblocks=3, blueblocks=7)
-block_setB = BlockSet(redblocks=5, greenblocks=3, blueblocks=7)
-block_setC = BlockSet(redblocks=5, greenblocks=3, blueblocks=7)
-# print('{block_setA.display_blocks}')
-# print(block_setA.display_blocks())
-# print(block_setA.redblocks)
-# print('bbbbbdfasdfasdfasdf')
-# gameA = Game(block_setA, block_setB, block_setC)
-# print(gameA.setA.redblocks)
+        
 
 
-checkSet = BlockSet(redblocks=12, greenblocks=13, blueblocks=14)
-# print('checkSet.blueblocks',checkSet.blueblocks)
-# checkSet.removeblocks(100,100,100)
-# print('checkSet.blueblocks',checkSet.blueblocks)
-
-
-# with open(testPath, "r") as file:
-with open(realPath, "r") as file:
+with open(testPath, "r") as file:
+# with open(realPath, "r") as file:
+    boardWidth = 0
+    boardLength = 0
     lines = file.readlines()
     # print(lines)
 
-    allGames = []
+    # print(lines[0])
+    # print(lines[1])
+    # print(len(lines[0].strip()))
+
+    boardtest = [[1,2],[5,6]]
+    boardtest = [[12],[5,6]]
+    maxX = 0
+    maxY = 0
+    # print(boardtest[1][0])  # 00 = 1, 01 = 2, 10 = 5, 11 = 6
+    print('***((((()))))')
+    # allGames = []
+    board = [] #  board[y][x]    not x y
     for rawline in lines:
         line = rawline.strip()
-        # print(line)   # line is like 1abc2df
-    #     # print(line.strip())    # the strip gets rid of spaces and crlf 's  line is ilke 3sfd1fj
-        
-        # game, set, color, number of color
-        lineA = line.split(':')
-        gamestring=lineA[0]
-        setsstring=lineA[1]
-        gameNo = int(gamestring.split(' ')[-1])
-        # print('gameno = ', gameNo)
-        # print('setsst/ring = ', setsstring)
+        # print(line)   # line is like ..34$...f.
+        lineArray = []
+        for character in line:
+            lineArray.append(character)
+        # print(lineArray) # all strings in array
+        board.append(lineArray)
+    # print(board)
+    # print(board[0][2])    # board y, x
+    boardWidth = len(board[0])
+    boardLength = len(board)
+    maxX = boardWidth - 1
+    maxY = boardLength - 1
+    print(f'boardWidth = {boardWidth} and boardLength = {boardLength}')
 
-        sets = setsstring.split(';')
-        thisGameArray = []
-        thisGamePassesCheck = True
-        for set in sets:
-            blah = set.strip()
-            # print('set = ',set)
-            numandcolors = set.strip().split(',')
+    for yindex, yelement in enumerate(board):
+    # for y in board:
+        possibleWord = False
+        endOfWord = False
+        for xindex, cell in enumerate(board[yindex]):
+            # cell = board[y][x]
+            print(cell)   # starts top left and goes right first
+            # check if this is a digit?
+            isDigit = cell.isdigit()
+            # print(isDigit)
 
-            numred = 0
-            numgreen = 0
-            numblue = 0
-            for numandcolorstr in numandcolors:
-                numandcolor = numandcolorstr.strip().split(' ')
-                num = int(numandcolor[0])
-                color = numandcolor[1]
-                if color == 'red': numred = num
-                if color == 'green': numgreen = num
-                if color == 'blue': numblue = num
-            
-            blockset7 = BlockSet(numred,numgreen,numblue)
-            # blockset7.display_blocks()
-            # print(blockset7)
-            thisGameArray.append(blockset7)
+            if (isDigit):
+                possibleWord = True
+                wordLength = 1
+                # is there a digit to the right? if not, then go backwasrds
+                if ((xindex + 1) <= boardWidth):
+                    cellToRight = board[yindex][xindex + 1]
+                    if (cellToRight.isdigit()):
+                        # cell to right is a digit, so this cell is not end of word
+                        endOfWord = False
+                # is there a digit to the left? 
+                howManycellsToCheck = xindex-1+1
+                # for someIndex, element in enumerate(board[yindex]):
+# hereeeeeeee
+                # for i in range(xindex, 0, -1):
+                #     if (i )
 
-            #check if this set agains checkSet
-            if ((blockset7.redblocks > checkSet.redblocks) or (blockset7.blueblocks > checkSet.blueblocks) or (blockset7.greenblocks > checkSet.greenblocks)) :
-                # print(f'AHA - game {gameNo} and set with {blockset7}')
-                # if mygame is higher number than check, then it's a bad game
-                thisGamePassesCheck = False
+                #     if ((xindex - 1) >= 0):
+                #         cellToLeft = board[yindex][xindex - 1]
+                #         if (cellToLeft.isdigit()):
+                #             wordLength += 1
 
- 
-        # print('sets = ',sets)
-        newGame = Game(gameNo, thisGamePassesCheck, thisGameArray)
-        allGames.append(newGame)
-        # print('thisGame = ',newGame)
 
+
+  
+# findWholeWord(2,0,2,board)
 print('***********end**********end*******')
 # print all games - for checking 
 # for index, game in enumerate(allGames):
 #    print(f"{game}")
 
-# add up the ids of all the possible games
-ans = 0
-for index, game in enumerate(allGames):
-    # if (game.gameId): print(game.gameId)
-    if (game.passesCheck): 
-        ans += game.gameId
-        # print(f'gameid {game.gameId} passesCheck') 
-print(f'ans = {ans}')
+# # add up the ids of all the possible games
+# ans = 0
+# for index, game in enumerate(allGames):
+#     # if (game.gameId): print(game.gameId)
+#     if (game.passesCheck): 
+#         ans += game.gameId
+#         # print(f'gameid {game.gameId} passesCheck') 
+# print(f'ans = {ans}')
 
